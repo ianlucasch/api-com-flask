@@ -10,14 +10,15 @@ def pagina_inicial():
 
 @app.route("/ola_mundo")
 def ola_mundo():
-    return "<h1>Olá Mundo!</h1>"
+    return {"message": "Olá Mundo!"}
 
 @app.route("/bem_vindo/<usuario>/<int:idade>/<float:altura>")
 def bem_vindo(usuario, idade, altura):
-    print(f"Tipo da variável usuário: {type(usuario)}")
-    print(f"Tipo da variável idade: {type(idade)}")
-    print(f"Tipo da variável altura: {type(altura)}")
-    return f"<h1>Seja bem-vindo usuário {usuario}, {idade} anos e {altura} de altura.</h1>"
+    return {
+        "Usuário": usuario,
+        "Idade": idade,
+        "Altura": altura,
+    }
 
 @app.route("/projects/")
 def projects():
