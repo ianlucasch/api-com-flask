@@ -1,6 +1,4 @@
-from flask import Flask
-from flask import url_for
-from flask import request
+from flask import Flask, url_for, request
 
 app = Flask(__name__)
 
