@@ -58,4 +58,10 @@ def create_app(test_config=None):
     # initialize extensions
     db.init_app(app)
 
+    # register blueprints
+    from src.controllers import user_controller
+    from src.controllers import post_controller
+
+    app.register_blueprint(user_controller.app)
+
     return app
