@@ -4,13 +4,14 @@ from http import HTTPStatus
 from sqlalchemy import inspect
 from flask_jwt_extended import jwt_required
 from src.utils import requires_role
+from src.app2 import bcrypt
 
 app = Blueprint("user", __name__, url_prefix="/users")
 
 def _create_user():
     data = request.json
     user = User(username=data["username"],
-                password=data["password"],
+                password=bcrypt.generate_password_hash(data["password"]),
                 role_id=data["role_id"]
                 )
     db.session.add(user)

@@ -1,11 +1,13 @@
 import os
 from src.models import db
 from flask import Flask
+from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 
 migrate = Migrate()
 jwt = JWTManager()
+bcrypt = Bcrypt()
 
 def create_app(environment=os.environ["ENVIRONMENT"]):
     app = Flask(__name__, instance_relative_config=True)
@@ -20,6 +22,7 @@ def create_app(environment=os.environ["ENVIRONMENT"]):
     db.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
+    bcrypt.init_app(app)
 
     # register blueprints
     from src.controllers import user_controller
