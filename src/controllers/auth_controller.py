@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from src.app2 import User, db
+from src.models import User, db
 from http import HTTPStatus
 from flask_jwt_extended import create_access_token
 
