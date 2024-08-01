@@ -41,6 +41,22 @@ def list_or_create_user():
 
 @app.route("/<int:user_id>")
 def get_user(user_id):
+    """User detail view.
+    ---
+    get:
+      tags:
+        - user
+      parameters:
+        - in: path
+          name: user_id
+          schema: UserIdParameter
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema: UserSchema
+    """
     user = db.get_or_404(User, user_id)
     return {
         "id": user.id,
@@ -65,6 +81,23 @@ def update_user(user_id):
 
 @app.route("/<int:user_id>", methods=["DELETE"])
 def delete_user(user_id):
+    """User delete view.
+    ---
+    delete:
+      tags:
+        - user
+      summary: Delete a user
+      description: delete a user
+      parameters:
+        - in: path
+          name: user_id
+          schema: UserIdParameter
+      responses:
+        204:
+          description: Successful operation
+        400:
+          description: Not found user
+    """
     user = db.get_or_404(User, user_id)
     db.session.delete(user)
     db.session.commit()

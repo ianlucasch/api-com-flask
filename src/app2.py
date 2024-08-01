@@ -7,11 +7,21 @@ from flask_jwt_extended import JWTManager
 from flask import json
 from werkzeug.exceptions import HTTPException
 from flask_marshmallow import Marshmallow
+from apispec import APISpec
+from apispec.ext.marshmallow import MarshmallowPlugin
+from apispec_webframeworks.flask import FlaskPlugin
 
 migrate = Migrate()
 jwt = JWTManager()
 bcrypt = Bcrypt()
 ma = Marshmallow()
+spec = APISpec(
+    title="API com Flask",
+    version="1.0.0",
+    openapi_version="3.0.3",
+    info=dict(description="Estudando o framework Flask"),
+    plugins=[FlaskPlugin(), MarshmallowPlugin()]
+)
 
 def create_app(environment=os.environ["ENVIRONMENT"]):
     app = Flask(__name__, instance_relative_config=True)
@@ -38,6 +48,10 @@ def create_app(environment=os.environ["ENVIRONMENT"]):
     app.register_blueprint(user_controller.app)
     app.register_blueprint(auth_controller.app)
     app.register_blueprint(role_controller.app)
+
+    @app.route("/docs")
+    def docs():
+        return spec.path(view=user_controller.delete_user).path(view=user_controller.get_user).to_dict()
 
     @app.errorhandler(HTTPException)
     def handle_exception(e):
